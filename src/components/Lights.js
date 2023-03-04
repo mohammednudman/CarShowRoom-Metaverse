@@ -1,31 +1,30 @@
-import React, { useRef } from "react";
-import { useHelper } from "@react-three/drei";
-import { DirectionalLightHelper } from "three";
+import { useRef } from "react";
+import { useFrame } from "@react-three/fiber";
 
-const Lights = () => {
-  const lightRef = useRef();
-  useHelper(lightRef, DirectionalLightHelper);
+export default function Lights() {
+  const light = useRef();
+  useFrame((state) => {
+    light.current.position.z = state.camera.position.z + 1 - 4;
+    light.current.target.position.z = state.camera.position.z - 4;
+    light.current.target.updateMatrixWorld();
+  });
 
-  // @ts-ignore
   return (
     <>
-      <ambientLight intensity={0.7} color={"#ffffff"} />
       <directionalLight
-        color={"#ffffff"}
-        intensity={1}
-        position={[-60, 100, -10]}
-        castShadow={true}
-        shadowCameraTop={50}
-        shadowCameraBottom={-50}
-        shadowCameraLeft={-50}
-        shadowCameraRight={50}
-        shadowCameraNear={0.1}
-        shadowCameraFar={200}
-        shadowMapSizeWidth={4096}
-        shadowMapSizeHeight={4096}
+        ref={light}
+        castShadow
+        position={[4, 4, 1]}
+        intensity={1.5}
+        shadow-mapSize={[1024, 1024]}
+        shadow-camera-near={1}
+        shadow-camera-far={10}
+        shadow-camera-top={10}
+        shadow-camera-right={10}
+        shadow-camera-bottom={-10}
+        shadow-camera-left={-10}
       />
-      <hemisphereLight args={["#7cdbe6", "#5e9c49", 0.7]} />
+      <ambientLight intensity={0.5} />
     </>
   );
-};
-export default Lights;
+}

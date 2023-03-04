@@ -1,5 +1,9 @@
-.app{
+html,
+body,
+#root,
+canvas {
   width: 100%;
-  height: 100vh;
-  background-color: darkgray;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
 }

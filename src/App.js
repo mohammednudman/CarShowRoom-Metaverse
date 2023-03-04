@@ -1,24 +1,20 @@
-import "./App.css";
-import { Physics } from "@react-three/rapier";
-import { OrbitControls } from "@react-three/drei";
-import Ground from "./components/Ground";
+import React, { Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
+import "./index.css";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import ShowRoom from "./components/ShowRoom";
 import Lights from "./components/Lights";
-import Character from "./components/Character";
 
 function App() {
   return (
-    <>
-      <Physics>
-        <OrbitControls
-          enabledDamping={true}
-          enablePan={false}
-          maxPolarAngle={Math.PI / 2 - 0.05}
-        />
+    <Suspense fallback={null}>
+      <Canvas shadows>
+        <OrbitControls target={[0, 0.35, 0]} maxPolarAngle={1.45} />
+        <PerspectiveCamera makeDefault fov={50} position={[3, 2, 5]} />
         <Lights />
-        <Ground />
-        <Character />
-      </Physics>
-    </>
+        <ShowRoom position={[0, 0, 0]} />
+      </Canvas>
+    </Suspense>
   );
 }
 
