@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Physics } from "@react-three/rapier";
+import { OrbitControls } from "@react-three/drei";
+import Ground from "./components/Ground";
+import Lights from "./components/Lights";
+import Character from "./components/Character";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Physics>
+        <OrbitControls
+          enabledDamping={true}
+          enablePan={false}
+          maxPolarAngle={Math.PI / 2 - 0.05}
+        />
+        <Lights />
+        <Ground />
+        <Character />
+      </Physics>
+    </>
   );
 }
 
