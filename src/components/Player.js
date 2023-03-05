@@ -1,6 +1,7 @@
 import { OrbitControls, useAnimations, useGLTF } from "@react-three/drei";
 import { useThree, useFrame } from "@react-three/fiber";
-import React, { useEffect, useRef } from "react";
+import { RigidBody } from "@react-three/rapier";
+import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import useInput from "../hooks/useInput";
 
@@ -38,7 +39,6 @@ const Player = () => {
   const { forward, backward, left, right, jump, shift } = useInput();
   const player = useGLTF("./models/player.glb");
   const { actions } = useAnimations(player.animations, player.scene);
-  console.log(player);
 
   player.scene.scale.set(1.5, 1.5, 1.5);
 
@@ -48,21 +48,21 @@ const Player = () => {
     }
   });
 
+  const body = useRef();
   const currentAction = useRef("");
   const controlRef = useRef();
   const camera = useThree((state) => state.camera);
 
   const updateCameraTarget = (moveX, moveZ) => {
-    // move the camera
     camera.position.x += moveX;
     camera.position.z += moveZ;
+    cameraTarget.x = player.scene.position.x;
+    cameraTarget.z = player.scene.position.z;
+    cameraTarget.y = player.scene.position.y + 2;
 
-    // update the camera target
-    cameraTarget.x = camera.position.x;
-    cameraTarget.y = camera.position.y + 2;
-    cameraTarget.z = camera.position.z;
-
-    if (controlRef.current) controlRef.current.target = cameraTarget;
+    if (controlRef.current) {
+      controlRef.current.target = cameraTarget;
+    }
   };
 
   useEffect(() => {
@@ -79,7 +79,7 @@ const Player = () => {
       action = "idle";
     }
 
-    if (currentAction.current != action) {
+    if (currentAction.current !== action) {
       const nextActionToPlay = actions[action];
       const current = actions[currentAction.current];
       current?.fadeOut(0.2);
@@ -122,7 +122,7 @@ const Player = () => {
       walkDirection.applyAxisAngle(rotateAngle, newDirectionOffset);
 
       // run/walk velocity
-      const velocity = currentAction.current == "running" ? 10 : 5;
+      const velocity = currentAction.current == "running" ? 8 : 4;
 
       // move model & camera
       const moveX = walkDirection.x * velocity * delta;
@@ -131,14 +131,14 @@ const Player = () => {
       player.scene.position.x += moveX;
       player.scene.position.z += moveZ;
 
-      // updateCameraTarget(moveX, moveZ);
+      updateCameraTarget(moveX, moveZ);
     }
   });
 
   return (
     <>
       <OrbitControls ref={controlRef} />
-      <primitive object={player.scene} />;
+      <primitive ref={body} object={player.scene} castShadow />;
     </>
   );
 };

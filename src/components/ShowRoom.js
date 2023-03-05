@@ -1,5 +1,6 @@
 import { useGLTF } from "@react-three/drei";
 import React from "react";
+import { RigidBody } from "@react-three/rapier";
 
 const ShowRoom = () => {
   const showroom = useGLTF("./models/showroom.glb");
