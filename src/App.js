@@ -6,6 +6,7 @@ import Lights from "./components/Lights";
 import Player from "./components/Player";
 import CarLoader from "./components/CarLoader";
 import { Physics } from "@react-three/rapier";
+import UtilsLoader from "./components/UtilsLoader";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
       <Canvas
         shadows
         camera={{
-          fov: 45,
+          fov: 60,
           near: 0.1,
           far: 200,
           position: [2.5, 4, 6],
@@ -24,6 +25,7 @@ function App() {
           <ShowRoom />
           <Player position={[0, 0, 0]} />
           <CarLoader />
+          <UtilsLoader />
         </Physics>
       </Canvas>
     </Suspense>
