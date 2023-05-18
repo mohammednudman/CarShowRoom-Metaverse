@@ -1,6 +1,3 @@
-Certainly! Here's an example README.md file for your GitHub repository for the above project:
-
-```
 # Virtual Car Showroom with Blockchain-based Warranty System
 
 This project is a virtual car showroom built using metaverse technology and integrated with a blockchain-based warranty system. It provides an immersive and convenient car buying experience for customers while ensuring efficient and secure warranty management.
